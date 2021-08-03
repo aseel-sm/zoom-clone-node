@@ -27,7 +27,11 @@ io.on("connection", (socket) => {
     socket.on("message", (message) => {
       socket.to(roomId).emit("createMessage", message);
     });
+    socket.on("disconnect", () => {
+      console.log("Disconnected:", userId);
+      socket.to(roomId).emit("user-disconnected", userId);
+    });
   });
 });
 
-server.listen(3030);
+server.listen(process.env.PORT || 3030);
